@@ -2,7 +2,7 @@ package nl.dantevg.certman
 
 import org.bukkit.plugin.java.JavaPlugin
 
-class CertMan : JavaPlugin() {
+object CertManPlugin : JavaPlugin() {
 	override fun onEnable() {
 		dataFolder.mkdirs()
 		saveDefaultConfig()

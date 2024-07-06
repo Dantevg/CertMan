@@ -21,6 +21,7 @@ repositories {
 dependencies {
 	testImplementation(kotlin("test"))
 	compileOnly(spigot("1.13.2"))
+	implementation("org.shredzone.acme4j:acme4j-client:3.3.1")
 }
 
 tasks.test {
@@ -29,9 +30,7 @@ tasks.test {
 
 kotlin {
 	jvmToolchain(21)
-	compilerOptions {
-		jvmTarget.set(JvmTarget.JVM_1_8)
-	}
+	compilerOptions.jvmTarget.set(JvmTarget.JVM_1_8)
 }
 
 spigot {
