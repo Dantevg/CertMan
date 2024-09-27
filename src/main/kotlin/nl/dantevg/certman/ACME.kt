@@ -55,7 +55,7 @@ fun renew(dir: File, domain: String, email: String, token: String) {
 	CertMan.logger.info("Successfully received certificate for $domain")
 	CertMan.logger.info("Certificate URL: ${order.certificate.location}")
 	
-	order.certificate.writeCertificate(dir.resolve(CHAIN_FILENAME).bufferedWriter())
+	dir.resolve(CHAIN_FILENAME).bufferedWriter().use(order.certificate::writeCertificate)
 }
 
 /**
@@ -106,7 +106,7 @@ private fun authorize(auth: Authorization, token: String) {
 		val status = waitForCompletion(challenge::getStatus, challenge::fetch)
 		if (status != Status.VALID) {
 			val reason = challenge.error.map(Problem::toString).orElse("unknown")
-			CertMan.logger.severe("Challenge failed: $reason")
+			CertMan.logger.severe("Challenge failed: $reason\n${challenge.json}")
 			throw AcmeException("Challenge failed")
 		}
 		

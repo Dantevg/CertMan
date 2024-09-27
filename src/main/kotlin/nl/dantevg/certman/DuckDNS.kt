@@ -6,12 +6,13 @@ private const val BASE_URL = "https://www.duckdns.org/update"
 
 private val domainRegex = """^(?:_acme-challenge\.)?([a-z0-9-]+)\.duckdns\.org""".toRegex()
 
-private fun getSubdomain(domain: String): String? = domainRegex.find(domain)?.value
+private fun getSubdomain(domain: String): String? = domainRegex.find(domain)?.groupValues?.getOrNull(1)
 
 object DuckDNS {
 	fun add(domain: String, token: String, txt: String): Boolean {
 		val subdomain = getSubdomain(domain)
 		val url = URI("$BASE_URL?domains=$subdomain&token=$token&txt=$txt").toURL()
+		CertMan.logger.info("Requesting $url")
 		val result = url.readText()
 		if (result != "OK") {
 			CertMan.logger.severe("Error setting DNS TXT record, got response '$result'")
